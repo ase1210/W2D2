@@ -85,17 +85,8 @@ class Cursor
     when :return, :space 
       toggle_selected
       @cursor_pos
-    when :left 
-      update_pos(MOVES[:left])
-      nil
-    when :down
-      update_pos(MOVES[:down])
-      nil
-    when :up
-      update_pos(MOVES[:up])
-      nil
-    when :right
-      update_pos(MOVES[:right])
+    when :left, :down, :up, :right
+      update_pos(MOVES[key])
       nil
     when :ctrl_c
       Process.exit(0)
