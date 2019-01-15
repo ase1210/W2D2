@@ -34,10 +34,12 @@ class InvalidMoveError < ArgumentError; end
 class Cursor
 
   attr_reader :cursor_pos, :board
+  attr_accessor :selected 
 
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
     @board = board
+    @selected = false 
   end
 
   def get_input
@@ -81,6 +83,7 @@ class Cursor
   def handle_key(key)
     case key 
     when :return, :space 
+      toggle_selected
       @cursor_pos
     when :left 
       update_pos(MOVES[:left])
@@ -107,5 +110,11 @@ class Cursor
     new_pos = [x, y]
     raise InvalidMoveError.new("Cursor cannot move there") if !board.valid_pos?(new_pos)
     @cursor_pos = new_pos
+  end
+
+  def toggle_selected
+    prev_val = selected
+    self.selected = false if prev_val
+    self.selected = true unless prev_val
   end
 end
