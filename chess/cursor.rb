@@ -99,7 +99,6 @@ class Cursor
     end
   end
 
-  public
   def update_pos(diff)
     curr_pos = cursor_pos
     x, y = curr_pos
