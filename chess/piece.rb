@@ -1,4 +1,4 @@
-
+require "singleton"
 
 class Piece
   def initialize
@@ -6,4 +6,8 @@ class Piece
   end
 end
 
-class NullPiece < Piece; end
+
+class NullPiece < Piece
+  include Singleton 
+
+end

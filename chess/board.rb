@@ -12,7 +12,7 @@ class Board
     raise ArguementError.new("You cannot move to #{end_pos}") unless valid_move?(start_pos, end_pos)
     piece = self[start_pos]
     self[end_pos] = piece
-    self[start_pos] = NullPiece.new
+    self[start_pos] = NullPiece.instance
     nil
   end
 
@@ -43,13 +43,11 @@ class Board
         row.each_index do |col|
           pos = [idx, col]
           self[pos] = Piece.new
-          # grid[idx][col] = Piece.new 
         end
       else
         row.each_index do |col|
           pos = [idx, col]
-          self[pos] = NullPiece.new
-          # grid[idx][col] = NullPiece.new 
+          self[pos] = NullPiece.instance
         end
       end 
     end
