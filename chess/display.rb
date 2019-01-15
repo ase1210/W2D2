@@ -9,28 +9,17 @@ class Display
   end
 
   def render 
-    print '  '
-    (0..7).each {|n| print n}
-    puts ''
     cursor.board.grid.each_with_index do |row, idx|
-      print "#{idx} "
       row.each_with_index do |piece, idx2|
         if piece.is_a?(NullPiece)
-          if cursor.cursor_pos == [idx, idx2]
-            print '-'.colorize(:blue) 
-          else
-            print '-'
-          end
+          (cursor.cursor_pos == [idx, idx2]) ? (print '-'.colorize(:blue)) : (print '-')
         else 
-          if cursor.cursor_pos == [idx, idx2]
-            print 'P'.colorize(:blue) 
-          else
-            print 'P'
-          end
+          (cursor.cursor_pos == [idx, idx2]) ? (print 'P'.colorize(:blue)) : (print 'P')
         end
       end 
       puts ''
     end
+    puts '--------------'
     nil
   end
 
