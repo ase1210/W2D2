@@ -80,32 +80,33 @@ class Cursor
 
   def handle_key(key)
     case key 
-    when "\r", " "
+    when :return, :space 
       @cursor_pos
-    when "h", "a", "\e[D" 
+    when :left 
       update_pos(MOVES[:left])
       nil
-    when "j", "s", "\e[B"
+    when :down
       update_pos(MOVES[:down])
       nil
-    when "k", "w", "\e[A"
+    when :up
       update_pos(MOVES[:up])
       nil
-    when "l", "d", "\e[C"
+    when :right
       update_pos(MOVES[:right])
       nil
-    when "\u0003"
+    when :ctrl_c
       Process.exit(0)
     end
   end
 
+  public
   def update_pos(diff)
     curr_pos = cursor_pos
     x, y = curr_pos
-    x += diff[0]
-    y += diff[1]
+    x = (x + diff[0]) % 8
+    y = (y + diff[1]) % 8
     new_pos = [x, y]
-    raise InvalidMoveError.new("Cursor cannot move there") unless board.valid_pos?(new_pos)
+    raise InvalidMoveError.new("Cursor cannot move there") if !board.valid_pos?(new_pos)
     @cursor_pos = new_pos
   end
 end

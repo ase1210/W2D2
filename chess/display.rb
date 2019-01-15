@@ -34,4 +34,11 @@ class Display
     nil
   end
 
+  def move_cursor
+    while true
+      render 
+      cursor.get_input
+    end
+  end
+
 end
