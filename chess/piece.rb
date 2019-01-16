@@ -91,11 +91,13 @@ end
 
 
 class Piece
-  attr_reader :color, :symbol, :current_pos
-  def initialize
-    @color = :white
-    @symbol = :P
+  attr_reader :color, :board
+  attr_accessor :current_pos
+
+  def initialize(board, color)
+    @color = color
     @current_pos = [3, 1]
+    @board = board 
   end
   
 end
@@ -103,6 +105,13 @@ end
 class King < Piece
   include SteppingPiece
   
+  attr_reader :symbol 
+
+  def initialize(board, color)
+    @symbol = :K 
+    super 
+  end
+
   def move_diff
     [[0,-1],[-1,0],[0,1],[1,0],[-1,1],[1,-1],[-1,-1],[1,1]]
   end
@@ -111,6 +120,13 @@ end
 class Queen < Piece
   include SlidingPiece
   
+  attr_reader :symbol 
+  
+  def initialize(board, color)
+    @symbol = :Q 
+    super 
+  end
+
   def move_dirs
     [:up, :right, :left, :down, :diag_up_right, :diag_up_left, :diag_down_right, :diag_down_left]
   end
@@ -120,6 +136,13 @@ end
 class Knight < Piece
   include SteppingPiece
   
+  attr_reader :symbol 
+  
+  def initialize(board, color)
+    @symbol = :H
+    super 
+  end
+
   def move_diff
     [[-2,-1],[-1,-2],[2,1],[1,2],[-1,2],[2,-1],[1,-2],[-2,1]]
   end
@@ -128,6 +151,13 @@ end
 class Bishop < Piece
   include SlidingPiece
   
+  attr_reader :symbol 
+  
+  def initialize(board, color)
+    @symbol = :B 
+    super 
+  end
+
   def move_dirs
     [:diag_up_right, :diag_up_left, :diag_down_right, :diag_down_left]
   end
@@ -137,6 +167,13 @@ end
 class Rook < Piece
   include SlidingPiece
   
+  attr_reader :symbol 
+  
+  def initialize(board, color)
+    @symbol = :R 
+    super 
+  end
+
   def move_dirs
     [:up, :right, :left, :down]
   end
@@ -144,6 +181,13 @@ class Rook < Piece
 end
 
 class Pawn < Piece
+
+  attr_reader :symbol 
+  
+  def initialize(board, color)
+    @symbol = :P 
+    super 
+  end
 
   # def move_dirs
   #   [:up]
@@ -153,5 +197,8 @@ end
 
 class NullPiece < Piece
   include Singleton 
+
+  def initialize
+  end
 
 end
