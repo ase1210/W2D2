@@ -37,20 +37,62 @@ class Board
   end
 
   def setup_default_grid
-    @grid.each_with_index do |row, idx|
-      case idx 
-      when 0, 1, 6, 7
-        row.each_index do |col|
-          pos = [idx, col]
-          self[pos] = Piece.new
+    p1 = p1_pieces
+    p2 = p2_pieces
+    np = NullPiece.instance
+    @grid.each_with_index do |row, row_idx|
+      case row_idx
+      when 0, 1
+        row.each_index do |col_idx|
+          piece = p1.shift
+          pos = [row_idx, col_idx]
+          self[pos] = piece
+          piece.current_pos = [row_idx, col_idx]
+        end
+      when 6, 7
+        row.each_index do |col_idx|
+          piece = p2.shift
+          pos = [row_idx, col_idx]
+          self[pos] = piece
+          piece.current_pos = [row_idx, col_idx]
         end
       else
-        row.each_index do |col|
-          pos = [idx, col]
-          self[pos] = NullPiece.instance
+        row.each_index do |col_idx|
+          pos = [row_idx, col_idx]          
+          self[pos] = np
         end
-      end 
+      end
     end
+  end
+ 
+  def p1_pieces
+    pieces = []
+    1.times { pieces << Rook.new(self, :white) }
+    1.times { pieces << Knight.new(self, :white) }
+    1.times { pieces << Bishop.new(self, :white) }
+    1.times { pieces << Queen.new(self, :white) }
+    1.times { pieces << King.new(self, :white) }
+    1.times { pieces << Bishop.new(self, :white) }
+    1.times { pieces << Knight.new(self, :white) }
+    1.times { pieces << Rook.new(self, :white) }    
+    8.times { pieces << Pawn.new(self, :white) }
+
+    pieces
+  end
+
+  def p2_pieces
+    pieces = []
+    8.times { pieces << Pawn.new(self, :white) }
+    1.times { pieces << Rook.new(self, :white) }
+    1.times { pieces << Knight.new(self, :white) }
+    1.times { pieces << Bishop.new(self, :white) }
+    1.times { pieces << King.new(self, :white) }
+    1.times { pieces << Queen.new(self, :white) }
+    1.times { pieces << Bishop.new(self, :white) }
+    1.times { pieces << Knight.new(self, :white) }
+    1.times { pieces << Rook.new(self, :white) }    
+
+    pieces
   end
 
 end
