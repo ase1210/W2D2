@@ -212,9 +212,66 @@ class Pawn < Piece
     super 
   end
 
-  # def move_dirs
-  #   [:up]
+  def moves
+    moves = []
+    f_dir = forward_dir
+    if f_dir == 1
+      new_pos = self.current_pos.dup
+      new_pos[0] += 1
+      moves << new_pos if board[new_pos] == NullPiece.instance
+    else
+      new_pos = self.current_pos.dup
+      new_pos[0] -= 1
+      moves << new_pos if board[new_pos] == NullPiece.instance
+    end
+
+    if at_start_row?
+      new_pos = self.current_pos.dup
+      new_pos[0] += 2 if f_dir == 1
+      new_pos[0] -= 2 if f_dir == -1
+      jump_pos = self.current_pos.dup
+      jump_pos[0] += 1 if f_dir == 1
+      jump_pos[0] -= 1 if f_dir == -1
+      
+      moves << new_pos if board[new_pos] == NullPiece.instance && board[jump_pos] == NullPiece.instance
+    end
+    moves += side_attacks
+
+    moves
+  end
+
+  private
+  def at_start_row?
+    return true if self.color == :white && self.current_pos[0] == 1
+    return true if self.color == :red && self.current_pos[0] == 6
+    false
+  end
+  
+  def forward_dir
+    return 1 if self.color == :white
+    -1
+  end
+
+  # def forward_steps
+
   # end
+
+  def side_attacks
+    result = []
+    f_dir = forward_dir
+    if f_dir == 1
+      diag_left_pos = [current_pos[0] + 1, current_pos[1] - 1]
+      diag_right_pos = [current_pos[0] + 1, current_pos[1] + 1]
+      result << diag_left_pos if board[diag_left_pos].color == :red
+      result << diag_right_pos if board[diag_right_pos].color == :red
+    else
+      diag_left_pos = [current_pos[0] - 1, current_pos[1] - 1]
+      diag_right_pos = [current_pos[0] - 1, current_pos[1] + 1]
+      result << diag_left_pos if board[diag_left_pos].color == :white
+      result << diag_right_pos if board[diag_right_pos].color == :white
+    end
+    result
+  end
 
 end
 
