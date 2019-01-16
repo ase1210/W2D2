@@ -4,6 +4,9 @@ module SlidingPiece
 
   def moves(current_pos, directions)
     moves = []
+    piece = board[current_pos]
+    color = piece.color
+    other_color = (color == :white) ? :red : :white 
     curr_pos = current_pos.dup
     directions.each do |dir|
       case dir 
@@ -11,53 +14,69 @@ module SlidingPiece
         new_pos = curr_pos
         until new_pos[0] == 0
           new_pos[0] -= 1
+          break if board[new_pos].color == color
           moves << new_pos.dup
+          break if board[new_pos].color == other_color
         end
       when :right 
         new_pos = curr_pos 
         until new_pos[1] == 7
           new_pos[1] += 1
+          break if board[new_pos].color == color
           moves << new_pos.dup
+          break if board[new_pos].color == other_color
         end
       when :left
         new_pos = curr_pos 
         until new_pos[1] == 0
           new_pos[1] -= 1
+          break if board[new_pos].color == color
           moves << new_pos.dup
+          break if board[new_pos].color == other_color
         end 
       when :down 
         new_pos = curr_pos 
         until new_pos[0] == 7
           new_pos[0] += 1
+          break if board[new_pos].color == color
           moves << new_pos.dup
+          break if board[new_pos].color == other_color
         end
       when :diag_up_left
         new_pos = curr_pos 
         until new_pos[0] == 0 || new_pos[1] == 0
           new_pos[0] -= 1
           new_pos[1] -= 1
+          break if board[new_pos].color == color
           moves << new_pos.dup
+          break if board[new_pos].color == other_color
         end
       when :diag_up_right
         new_pos = curr_pos 
         until new_pos[0] == 0 || new_pos[1] == 7
           new_pos[0] -= 1
           new_pos[1] += 1
+          break if board[new_pos].color == color
           moves << new_pos.dup
+          break if board[new_pos].color == other_color
         end
       when :diag_down_right
         new_pos = curr_pos 
         until new_pos[0] == 7 || new_pos[1] == 7
           new_pos[0] += 1
           new_pos[1] += 1
+          break if board[new_pos].color == color
           moves << new_pos.dup
+          break if board[new_pos].color == other_color
         end
       when :diag_down_left
         new_pos = curr_pos 
         until new_pos[0] == 7 || new_pos[1] == 0
           new_pos[0] += 1
           new_pos[1] -= 1
+          break if board[new_pos].color == color
           moves << new_pos.dup
+          break if board[new_pos].color == other_color
         end
       end 
     end
@@ -74,10 +93,14 @@ module SteppingPiece
   
   def moves(current_pos, move_set)
     moves = [] 
+    piece = board[current_pos]
+    color = piece.color 
+
     move_set.each do |move|
       new_pos = current_pos.dup
       new_pos[0] += move[0]
       new_pos[1] += move[1]
+      next if board[new_pos].color == color 
       moves << new_pos.dup if (0..7).cover?(new_pos[0]) && (0..7).cover?(new_pos[1])
     end
     moves
@@ -196,9 +219,11 @@ class Pawn < Piece
 end
 
 class NullPiece < Piece
+  attr_reader :color 
   include Singleton 
 
   def initialize
+    @color = nil 
   end
 
 end

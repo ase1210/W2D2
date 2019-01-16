@@ -1,4 +1,5 @@
 require_relative 'piece'
+require_relative 'display'
 
 class Board
   attr_reader :grid
