@@ -1,4 +1,5 @@
 require 'colorize' 
+require 'byebug' 
 require_relative 'board'
 require_relative 'cursor' 
 
@@ -14,7 +15,9 @@ class Display
         if piece.is_a?(NullPiece)
           (cursor.cursor_pos == [idx, idx2]) ? (print '-'.colorize(cursor_color)) : (print '-')
         else 
-          (cursor.cursor_pos == [idx, idx2]) ? (print 'P'.colorize(cursor_color)) : (print 'P')
+          color = piece.color
+          # byebug
+          (cursor.cursor_pos == [idx, idx2]) ? (print piece.symbol.to_s.colorize(cursor_color)) : (print piece.symbol.to_s.colorize(color))
         end
       end 
       puts ''
@@ -27,11 +30,11 @@ class Display
     cursor.selected ? :green : :blue
   end
 
-  # def move_cursor
-  #   while true
-  #     render 
-  #     cursor.get_input
-  #   end
-  # end
+  def move_cursor
+    while true
+      render 
+      cursor.get_input
+    end
+  end
 
 end

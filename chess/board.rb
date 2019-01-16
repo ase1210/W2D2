@@ -82,15 +82,15 @@ class Board
 
   def p2_pieces
     pieces = []
-    8.times { pieces << Pawn.new(self, :white) }
-    1.times { pieces << Rook.new(self, :white) }
-    1.times { pieces << Knight.new(self, :white) }
-    1.times { pieces << Bishop.new(self, :white) }
-    1.times { pieces << King.new(self, :white) }
-    1.times { pieces << Queen.new(self, :white) }
-    1.times { pieces << Bishop.new(self, :white) }
-    1.times { pieces << Knight.new(self, :white) }
-    1.times { pieces << Rook.new(self, :white) }    
+    8.times { pieces << Pawn.new(self, :red) }
+    1.times { pieces << Rook.new(self, :red) }
+    1.times { pieces << Knight.new(self, :red) }
+    1.times { pieces << Bishop.new(self, :red) }
+    1.times { pieces << King.new(self, :red) }
+    1.times { pieces << Queen.new(self, :red) }
+    1.times { pieces << Bishop.new(self, :red) }
+    1.times { pieces << Knight.new(self, :red) }
+    1.times { pieces << Rook.new(self, :red) }    
 
     pieces
   end
